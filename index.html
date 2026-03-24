@@ -1,0 +1,867 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Happy Birthday Momo ✨</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Inter:wght@300;400&display=swap');
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        :root {
+            --gold: #f0c27f;
+            --pink: #e8a0bf;
+            --purple: #c4b5fd;
+            --deep: #0a0a1a;
+        }
+
+        html {
+            scroll-behavior: smooth;
+            scrollbar-width: thin;
+            scrollbar-color: var(--gold) var(--deep);
+        }
+
+        body {
+            background: var(--deep);
+            color: #fff;
+            font-family: 'Inter', sans-serif;
+            overflow-x: hidden;
+            cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16'%3E%3Ccircle cx='8' cy='8' r='3' fill='%23f0c27f' opacity='0.8'/%3E%3C/svg%3E") 8 8, auto;
+        }
+
+        /* ===== STARFIELD CANVAS ===== */
+        #starfield {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            z-index: 0;
+        }
+
+        /* ===== SHOOTING STARS ===== */
+        .shooting-star {
+            position: fixed;
+            width: 120px;
+            height: 2px;
+            background: linear-gradient(90deg, var(--gold), transparent);
+            border-radius: 50%;
+            opacity: 0;
+            z-index: 1;
+            animation: shoot 1.5s ease-out forwards;
+            filter: blur(0.5px);
+        }
+
+        @keyframes shoot {
+            0% { opacity: 1; transform: translateX(0) translateY(0) rotate(-35deg); }
+            100% { opacity: 0; transform: translateX(400px) translateY(200px) rotate(-35deg); }
+        }
+
+        /* ===== SECTIONS ===== */
+        section {
+            position: relative;
+            z-index: 2;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 60px 20px;
+        }
+
+        /* ===== OPENING ===== */
+        #opening {
+            text-align: center;
+        }
+
+        #opening h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(2rem, 6vw, 4.5rem);
+            font-weight: 400;
+            letter-spacing: 0.05em;
+            opacity: 0;
+            animation: fadeUp 2s ease forwards 0.5s;
+            background: linear-gradient(135deg, var(--gold), var(--pink), var(--purple));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        #opening .subtitle {
+            font-size: clamp(0.9rem, 2vw, 1.2rem);
+            color: rgba(255,255,255,0.5);
+            margin-top: 20px;
+            opacity: 0;
+            animation: fadeUp 2s ease forwards 1.5s;
+            font-weight: 300;
+            letter-spacing: 0.15em;
+        }
+
+        #opening .date-line {
+            font-family: 'Playfair Display', serif;
+            font-style: italic;
+            font-size: clamp(1rem, 2.5vw, 1.4rem);
+            color: var(--gold);
+            margin-top: 30px;
+            opacity: 0;
+            animation: fadeUp 2s ease forwards 2.5s;
+        }
+
+        .scroll-hint {
+            position: absolute;
+            bottom: 40px;
+            opacity: 0;
+            animation: fadeUp 2s ease forwards 3.5s;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+            color: rgba(255,255,255,0.3);
+            font-size: 0.8rem;
+            letter-spacing: 0.2em;
+        }
+
+        .scroll-hint .arrow {
+            width: 20px;
+            height: 20px;
+            border-right: 1px solid rgba(255,255,255,0.3);
+            border-bottom: 1px solid rgba(255,255,255,0.3);
+            transform: rotate(45deg);
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: rotate(45deg) translateY(0); }
+            50% { transform: rotate(45deg) translateY(8px); }
+        }
+
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* ===== STAR MAP ===== */
+        #starmap {
+            text-align: center;
+        }
+
+        #starmap h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(1.5rem, 4vw, 2.5rem);
+            color: var(--purple);
+            margin-bottom: 10px;
+        }
+
+        #starmap .location {
+            color: rgba(255,255,255,0.4);
+            font-size: 0.85rem;
+            letter-spacing: 0.15em;
+            margin-bottom: 40px;
+        }
+
+        .star-map-container {
+            position: relative;
+            width: min(500px, 85vw);
+            height: min(500px, 85vw);
+            border-radius: 50%;
+            border: 1px solid rgba(240, 194, 127, 0.2);
+            overflow: hidden;
+            background: radial-gradient(circle, rgba(15,15,40,1) 0%, rgba(5,5,15,1) 100%);
+            box-shadow: 0 0 60px rgba(240, 194, 127, 0.08), inset 0 0 60px rgba(240, 194, 127, 0.03);
+        }
+
+        .star-map-container canvas {
+            width: 100%;
+            height: 100%;
+        }
+
+        .star-map-label {
+            color: rgba(255,255,255,0.35);
+            font-size: 0.7rem;
+            margin-top: 20px;
+            letter-spacing: 0.2em;
+            font-style: italic;
+        }
+
+        /* ===== CONSTELLATION MEMORIES ===== */
+        .memory-section {
+            min-height: 100vh;
+            padding: 80px 20px;
+        }
+
+        .memory-card {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            max-width: 600px;
+            opacity: 0;
+            transform: translateY(60px);
+            transition: all 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .memory-card.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .memory-photo-frame {
+            position: relative;
+            width: min(320px, 75vw);
+            height: min(320px, 75vw);
+            margin-bottom: 30px;
+        }
+
+        .constellation-lines {
+            position: absolute;
+            top: -20px; left: -20px;
+            width: calc(100% + 40px);
+            height: calc(100% + 40px);
+            z-index: 2;
+            pointer-events: none;
+        }
+
+        .memory-photo {
+            width: 100%;
+            height: 100%;
+            border-radius: 12px;
+            object-fit: cover;
+            border: 1px solid rgba(240, 194, 127, 0.15);
+            box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+            position: relative;
+            z-index: 1;
+            background: rgba(255,255,255,0.03);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        .memory-photo img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .photo-placeholder {
+            color: rgba(255,255,255,0.15);
+            font-size: 0.8rem;
+            letter-spacing: 0.15em;
+        }
+
+        .memory-text {
+            font-family: 'Playfair Display', serif;
+            font-style: italic;
+            font-size: clamp(1.1rem, 2.5vw, 1.4rem);
+            color: rgba(255,255,255,0.7);
+            line-height: 1.8;
+            max-width: 450px;
+        }
+
+        .memory-divider {
+            width: 40px;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--gold), transparent);
+            margin: 15px 0;
+        }
+
+        /* ===== NEBULA TRANSITION ===== */
+        #nebula-transition {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .nebula-bg {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background:
+                radial-gradient(ellipse at 30% 50%, rgba(196, 181, 253, 0.08) 0%, transparent 60%),
+                radial-gradient(ellipse at 70% 50%, rgba(232, 160, 191, 0.08) 0%, transparent 60%);
+        }
+
+        #nebula-transition .quote {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(1.2rem, 3vw, 2rem);
+            text-align: center;
+            max-width: 700px;
+            line-height: 1.9;
+            color: rgba(255,255,255,0.6);
+        }
+
+        #nebula-transition .quote em {
+            color: var(--gold);
+            font-style: italic;
+        }
+
+        /* ===== FINALE ===== */
+        #finale {
+            text-align: center;
+            min-height: 120vh;
+            justify-content: center;
+        }
+
+        .age-display {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(6rem, 20vw, 14rem);
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--gold), var(--pink));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            line-height: 1;
+            opacity: 0;
+            transform: scale(0.5);
+            transition: all 1.5s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .age-display.visible {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        .birthday-message {
+            max-width: 600px;
+            margin-top: 40px;
+            opacity: 0;
+            transform: translateY(40px);
+            transition: all 1.5s cubic-bezier(0.16, 1, 0.3, 1) 0.5s;
+        }
+
+        .birthday-message.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .birthday-message h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(1.8rem, 4vw, 3rem);
+            background: linear-gradient(135deg, var(--gold), var(--pink), var(--purple));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 30px;
+        }
+
+        .birthday-message p {
+            font-size: clamp(1rem, 2vw, 1.15rem);
+            line-height: 2;
+            color: rgba(255,255,255,0.6);
+            font-weight: 300;
+        }
+
+        .birthday-message .signature {
+            margin-top: 40px;
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(1.2rem, 2.5vw, 1.6rem);
+            color: var(--gold);
+            letter-spacing: 0.1em;
+        }
+
+        .birthday-message .heart-line {
+            margin-top: 15px;
+            font-size: 1.5rem;
+            opacity: 0.6;
+        }
+
+        /* ===== FLOATING PARTICLES ===== */
+        .particle {
+            position: fixed;
+            width: 3px;
+            height: 3px;
+            border-radius: 50%;
+            background: var(--gold);
+            pointer-events: none;
+            z-index: 999;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 600px) {
+            section { padding: 40px 15px; }
+            .memory-section { padding: 60px 15px; }
+        }
+
+        /* ===== MUSIC TOGGLE ===== */
+        .music-btn {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 100;
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+            color: rgba(255,255,255,0.5);
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            transition: all 0.3s;
+            backdrop-filter: blur(10px);
+        }
+
+        .music-btn:hover {
+            background: rgba(255,255,255,0.1);
+            color: var(--gold);
+        }
+
+        /* ===== GLOW KEYFRAMES ===== */
+        @keyframes glow-pulse {
+            0%, 100% { filter: drop-shadow(0 0 8px rgba(240,194,127,0.3)); }
+            50% { filter: drop-shadow(0 0 20px rgba(240,194,127,0.6)); }
+        }
+
+        /* ===== STAR BURST for finale ===== */
+        .star-burst {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0; left: 0;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .burst-particle {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            border-radius: 50%;
+            top: 50%;
+            left: 50%;
+        }
+    </style>
+</head>
+<body>
+
+    <canvas id="starfield"></canvas>
+
+    <!-- ===== SECTION 1: OPENING ===== -->
+    <section id="opening">
+        <h1>The Stars Aligned</h1>
+        <p class="subtitle">24 &middot; MARCH &middot; 2003</p>
+        <p class="date-line">The night the universe made something beautiful</p>
+        <div class="scroll-hint">
+            <span>SCROLL THROUGH THE STARS</span>
+            <div class="arrow"></div>
+        </div>
+    </section>
+
+    <!-- ===== SECTION 2: STAR MAP ===== -->
+    <section id="starmap">
+        <h2>The Sky Above Palapye</h2>
+        <p class="location">BOTSWANA &middot; 22.4°S 27.1°E &middot; MARCH 24, 2003</p>
+        <div class="star-map-container">
+            <canvas id="starmap-canvas"></canvas>
+        </div>
+        <p class="star-map-label">THE NIGHT SKY THE MOMENT YOU ARRIVED</p>
+    </section>
+
+    <!-- ===== SECTION 3: MEMORY 1 ===== -->
+    <section class="memory-section">
+        <div class="memory-card" data-reveal>
+            <div class="memory-photo-frame">
+                <svg class="constellation-lines" viewBox="0 0 360 360">
+                    <circle cx="40" cy="30" r="2" fill="#f0c27f" opacity="0.6"/>
+                    <circle cx="320" cy="50" r="1.5" fill="#f0c27f" opacity="0.4"/>
+                    <circle cx="350" cy="150" r="2" fill="#f0c27f" opacity="0.5"/>
+                    <circle cx="30" cy="200" r="1.5" fill="#f0c27f" opacity="0.4"/>
+                    <circle cx="340" cy="310" r="2" fill="#f0c27f" opacity="0.6"/>
+                    <circle cx="20" cy="340" r="1.5" fill="#f0c27f" opacity="0.3"/>
+                    <line x1="40" y1="30" x2="320" y2="50" stroke="#f0c27f" stroke-width="0.5" opacity="0.15"/>
+                    <line x1="320" y1="50" x2="350" y2="150" stroke="#f0c27f" stroke-width="0.5" opacity="0.15"/>
+                    <line x1="30" y1="200" x2="340" y2="310" stroke="#f0c27f" stroke-width="0.5" opacity="0.15"/>
+                </svg>
+                <div class="memory-photo" id="photo1">
+                    <span class="photo-placeholder">[ PHOTO 1 ]</span>
+                </div>
+            </div>
+            <div class="memory-divider"></div>
+            <p class="memory-text">Good vibes only... and a little bit of irritating each other</p>
+        </div>
+    </section>
+
+    <!-- ===== SECTION 4: MEMORY 2 ===== -->
+    <section class="memory-section">
+        <div class="memory-card" data-reveal>
+            <div class="memory-photo-frame">
+                <svg class="constellation-lines" viewBox="0 0 360 360">
+                    <circle cx="60" cy="20" r="2" fill="#e8a0bf" opacity="0.6"/>
+                    <circle cx="300" cy="40" r="2" fill="#e8a0bf" opacity="0.5"/>
+                    <circle cx="10" cy="180" r="1.5" fill="#e8a0bf" opacity="0.4"/>
+                    <circle cx="350" cy="200" r="2" fill="#e8a0bf" opacity="0.5"/>
+                    <circle cx="50" cy="340" r="1.5" fill="#e8a0bf" opacity="0.4"/>
+                    <circle cx="310" cy="350" r="2" fill="#e8a0bf" opacity="0.6"/>
+                    <line x1="60" y1="20" x2="300" y2="40" stroke="#e8a0bf" stroke-width="0.5" opacity="0.15"/>
+                    <line x1="10" y1="180" x2="350" y2="200" stroke="#e8a0bf" stroke-width="0.5" opacity="0.15"/>
+                    <line x1="50" y1="340" x2="310" y2="350" stroke="#e8a0bf" stroke-width="0.5" opacity="0.15"/>
+                </svg>
+                <div class="memory-photo" id="photo2">
+                    <span class="photo-placeholder">[ PHOTO 2 ]</span>
+                </div>
+            </div>
+            <div class="memory-divider"></div>
+            <p class="memory-text">A constellation of us — connected across every moment</p>
+        </div>
+    </section>
+
+    <!-- ===== SECTION 5: MEMORY 3 ===== -->
+    <section class="memory-section">
+        <div class="memory-card" data-reveal>
+            <div class="memory-photo-frame">
+                <svg class="constellation-lines" viewBox="0 0 360 360">
+                    <circle cx="50" cy="50" r="2" fill="#c4b5fd" opacity="0.6"/>
+                    <circle cx="310" cy="30" r="1.5" fill="#c4b5fd" opacity="0.4"/>
+                    <circle cx="340" cy="180" r="2" fill="#c4b5fd" opacity="0.5"/>
+                    <circle cx="20" cy="300" r="2" fill="#c4b5fd" opacity="0.5"/>
+                    <circle cx="300" cy="340" r="1.5" fill="#c4b5fd" opacity="0.4"/>
+                    <line x1="50" y1="50" x2="310" y2="30" stroke="#c4b5fd" stroke-width="0.5" opacity="0.15"/>
+                    <line x1="310" y1="30" x2="340" y2="180" stroke="#c4b5fd" stroke-width="0.5" opacity="0.15"/>
+                    <line x1="20" y1="300" x2="300" y2="340" stroke="#c4b5fd" stroke-width="0.5" opacity="0.15"/>
+                </svg>
+                <div class="memory-photo" id="photo3">
+                    <span class="photo-placeholder">[ PHOTO 3 ]</span>
+                </div>
+            </div>
+            <div class="memory-divider"></div>
+            <p class="memory-text">Stay above the madness — you always do, and you always shine</p>
+        </div>
+    </section>
+
+    <!-- ===== SECTION 6: NEBULA TRANSITION ===== -->
+    <section id="nebula-transition">
+        <div class="nebula-bg"></div>
+        <div class="memory-card" data-reveal>
+            <p class="quote">
+                "Some souls are like stars —<br>
+                they don't just <em>exist</em> in the universe,<br>
+                they <em>light it up</em>"
+            </p>
+        </div>
+    </section>
+
+    <!-- ===== SECTION 7: GRAND FINALE ===== -->
+    <section id="finale">
+        <div class="star-burst" id="burst-container"></div>
+        <div class="age-display" data-reveal>23</div>
+        <div class="birthday-message" data-reveal>
+            <h2>Happy Birthday Momo</h2>
+            <p>
+                Happy birthday my heart.<br><br>
+                To many more years of good vibes,
+                irritating each other, and much more.<br><br>
+                May your stars align in life
+                and remember that you must
+                stay above the madness.
+            </p>
+            <p class="signature">— HEAD OF STATE</p>
+            <p class="heart-line">♥</p>
+        </div>
+    </section>
+
+    <script>
+    // ===== STARFIELD =====
+    const canvas = document.getElementById('starfield');
+    const ctx = canvas.getContext('2d');
+    let stars = [];
+    let w, h;
+
+    function resizeCanvas() {
+        w = canvas.width = window.innerWidth;
+        h = canvas.height = window.innerHeight;
+    }
+
+    function createStars() {
+        stars = [];
+        const count = Math.min(800, Math.floor((w * h) / 2000));
+        for (let i = 0; i < count; i++) {
+            stars.push({
+                x: Math.random() * w,
+                y: Math.random() * h,
+                r: Math.random() * 1.8 + 0.2,
+                baseAlpha: Math.random() * 0.8 + 0.2,
+                twinkleSpeed: Math.random() * 0.02 + 0.005,
+                twinkleOffset: Math.random() * Math.PI * 2,
+                color: ['#ffffff', '#f0c27f', '#c4b5fd', '#e8a0bf'][Math.floor(Math.random() * 4)]
+            });
+        }
+    }
+
+    function drawStars(time) {
+        ctx.clearRect(0, 0, w, h);
+        const scroll = window.scrollY;
+        const maxScroll = document.body.scrollHeight - window.innerHeight;
+        const progress = scroll / maxScroll;
+
+        stars.forEach(star => {
+            const parallaxY = (star.y - scroll * (star.r * 0.05)) % h;
+            const y = parallaxY < 0 ? parallaxY + h : parallaxY;
+            const twinkle = Math.sin(time * star.twinkleSpeed + star.twinkleOffset);
+            const alpha = star.baseAlpha * (0.6 + 0.4 * twinkle);
+
+            ctx.beginPath();
+            ctx.arc(star.x, y, star.r, 0, Math.PI * 2);
+            ctx.fillStyle = star.color;
+            ctx.globalAlpha = alpha;
+            ctx.fill();
+
+            if (star.r > 1.2) {
+                ctx.beginPath();
+                ctx.arc(star.x, y, star.r * 3, 0, Math.PI * 2);
+                ctx.fillStyle = star.color;
+                ctx.globalAlpha = alpha * 0.08;
+                ctx.fill();
+            }
+        });
+        ctx.globalAlpha = 1;
+        requestAnimationFrame(drawStars);
+    }
+
+    resizeCanvas();
+    createStars();
+    requestAnimationFrame(drawStars);
+    window.addEventListener('resize', () => { resizeCanvas(); createStars(); });
+
+    // ===== STAR MAP CANVAS =====
+    const smCanvas = document.getElementById('starmap-canvas');
+    const smCtx = smCanvas.getContext('2d');
+
+    function drawStarMap() {
+        const size = smCanvas.parentElement.clientWidth;
+        smCanvas.width = size * 2;
+        smCanvas.height = size * 2;
+        smCanvas.style.width = size + 'px';
+        smCanvas.style.height = size + 'px';
+        smCtx.scale(2, 2);
+
+        const cx = size / 2;
+        const cy = size / 2;
+        const radius = size / 2 - 10;
+
+        // Background gradient
+        const bg = smCtx.createRadialGradient(cx, cy, 0, cx, cy, radius);
+        bg.addColorStop(0, 'rgba(15,15,50,1)');
+        bg.addColorStop(1, 'rgba(5,5,20,1)');
+        smCtx.fillStyle = bg;
+        smCtx.beginPath();
+        smCtx.arc(cx, cy, radius, 0, Math.PI * 2);
+        smCtx.fill();
+
+        // Milky way band
+        smCtx.save();
+        smCtx.globalAlpha = 0.04;
+        smCtx.translate(cx, cy);
+        smCtx.rotate(-0.4);
+        const milky = smCtx.createLinearGradient(-radius, 0, radius, 0);
+        milky.addColorStop(0, 'transparent');
+        milky.addColorStop(0.3, 'rgba(200,180,255,1)');
+        milky.addColorStop(0.5, 'rgba(255,255,255,1)');
+        milky.addColorStop(0.7, 'rgba(200,180,255,1)');
+        milky.addColorStop(1, 'transparent');
+        smCtx.fillStyle = milky;
+        smCtx.fillRect(-radius, -radius * 0.15, radius * 2, radius * 0.3);
+        smCtx.restore();
+
+        // Seed-based random for consistent star positions
+        let seed = 20030324;
+        function seededRandom() {
+            seed = (seed * 16807 + 0) % 2147483647;
+            return seed / 2147483647;
+        }
+
+        // Stars
+        for (let i = 0; i < 400; i++) {
+            const angle = seededRandom() * Math.PI * 2;
+            const dist = seededRandom() * radius * 0.95;
+            const x = cx + Math.cos(angle) * dist;
+            const y = cy + Math.sin(angle) * dist;
+            const r = seededRandom() * 1.8 + 0.3;
+            const brightness = seededRandom();
+
+            smCtx.beginPath();
+            smCtx.arc(x, y, r, 0, Math.PI * 2);
+            smCtx.fillStyle = brightness > 0.8 ? '#f0c27f' :
+                             brightness > 0.6 ? '#c4b5fd' :
+                             brightness > 0.4 ? '#e8a0bf' : '#ffffff';
+            smCtx.globalAlpha = seededRandom() * 0.6 + 0.4;
+            smCtx.fill();
+
+            if (r > 1.3) {
+                smCtx.beginPath();
+                smCtx.arc(x, y, r * 3, 0, Math.PI * 2);
+                smCtx.globalAlpha = 0.06;
+                smCtx.fill();
+            }
+        }
+        smCtx.globalAlpha = 1;
+
+        // Constellation: Southern Cross (Crux) - visible from Palapye
+        const crux = [
+            { x: cx - 20, y: cy - 60 },  // top
+            { x: cx - 20, y: cy + 10 },   // bottom
+            { x: cx - 55, y: cy - 25 },   // left
+            { x: cx + 10, y: cy - 25 },   // right
+        ];
+
+        // Constellation lines
+        smCtx.strokeStyle = 'rgba(240,194,127,0.25)';
+        smCtx.lineWidth = 0.8;
+        smCtx.beginPath();
+        smCtx.moveTo(crux[0].x, crux[0].y);
+        smCtx.lineTo(crux[1].x, crux[1].y);
+        smCtx.moveTo(crux[2].x, crux[2].y);
+        smCtx.lineTo(crux[3].x, crux[3].y);
+        smCtx.stroke();
+
+        // Crux stars
+        crux.forEach(s => {
+            smCtx.beginPath();
+            smCtx.arc(s.x, s.y, 2.5, 0, Math.PI * 2);
+            smCtx.fillStyle = '#f0c27f';
+            smCtx.globalAlpha = 0.9;
+            smCtx.fill();
+            smCtx.beginPath();
+            smCtx.arc(s.x, s.y, 8, 0, Math.PI * 2);
+            smCtx.globalAlpha = 0.1;
+            smCtx.fill();
+        });
+
+        // Scorpius constellation
+        const scorpius = [
+            { x: cx + 80, y: cy + 40 },
+            { x: cx + 95, y: cy + 60 },
+            { x: cx + 100, y: cy + 85 },
+            { x: cx + 90, y: cy + 110 },
+            { x: cx + 70, y: cy + 125 },
+            { x: cx + 55, y: cy + 140 },
+            { x: cx + 50, y: cy + 160 },
+        ];
+
+        smCtx.strokeStyle = 'rgba(196,181,253,0.2)';
+        smCtx.lineWidth = 0.6;
+        smCtx.beginPath();
+        smCtx.moveTo(scorpius[0].x, scorpius[0].y);
+        for (let i = 1; i < scorpius.length; i++) {
+            smCtx.lineTo(scorpius[i].x, scorpius[i].y);
+        }
+        smCtx.stroke();
+
+        scorpius.forEach((s, i) => {
+            smCtx.beginPath();
+            const r = i === 0 ? 2.5 : 1.8;
+            smCtx.arc(s.x, s.y, r, 0, Math.PI * 2);
+            smCtx.fillStyle = i === 0 ? '#e8a0bf' : '#c4b5fd';
+            smCtx.globalAlpha = 0.8;
+            smCtx.fill();
+        });
+
+        // Label
+        smCtx.globalAlpha = 0.25;
+        smCtx.fillStyle = '#f0c27f';
+        smCtx.font = '9px Inter, sans-serif';
+        smCtx.letterSpacing = '2px';
+        smCtx.fillText('CRUX', crux[3].x + 15, crux[3].y + 4);
+        smCtx.fillStyle = '#c4b5fd';
+        smCtx.fillText('SCORPIUS', scorpius[0].x + 12, scorpius[0].y - 5);
+        smCtx.globalAlpha = 1;
+
+        // Cardinal directions
+        smCtx.globalAlpha = 0.2;
+        smCtx.fillStyle = '#fff';
+        smCtx.font = '10px Inter, sans-serif';
+        smCtx.textAlign = 'center';
+        smCtx.fillText('N', cx, 22);
+        smCtx.fillText('S', cx, size - 10);
+        smCtx.fillText('E', 15, cy + 4);
+        smCtx.fillText('W', size - 15, cy + 4);
+        smCtx.globalAlpha = 1;
+    }
+
+    drawStarMap();
+    window.addEventListener('resize', drawStarMap);
+
+    // ===== SCROLL REVEAL =====
+    const revealElements = document.querySelectorAll('[data-reveal]');
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('visible');
+            }
+        });
+    }, { threshold: 0.2 });
+
+    revealElements.forEach(el => observer.observe(el));
+
+    // ===== SHOOTING STARS =====
+    function createShootingStar() {
+        const star = document.createElement('div');
+        star.className = 'shooting-star';
+        star.style.top = Math.random() * 40 + '%';
+        star.style.left = Math.random() * 60 + '%';
+        star.style.width = (Math.random() * 80 + 60) + 'px';
+        document.body.appendChild(star);
+        setTimeout(() => star.remove(), 1500);
+    }
+
+    setInterval(() => {
+        if (Math.random() > 0.5) createShootingStar();
+    }, 3000);
+
+    // ===== MOUSE TRAIL PARTICLES =====
+    document.addEventListener('mousemove', (e) => {
+        if (Math.random() > 0.85) {
+            const p = document.createElement('div');
+            p.className = 'particle';
+            p.style.left = e.clientX + 'px';
+            p.style.top = e.clientY + 'px';
+            p.style.opacity = '0.6';
+            p.style.background = ['#f0c27f', '#e8a0bf', '#c4b5fd'][Math.floor(Math.random() * 3)];
+            document.body.appendChild(p);
+            setTimeout(() => { p.style.opacity = '0'; }, 100);
+            setTimeout(() => p.remove(), 400);
+        }
+    });
+
+    // ===== FINALE STAR BURST =====
+    const finaleObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                createStarBurst();
+                finaleObserver.unobserve(entry.target);
+            }
+        });
+    }, { threshold: 0.3 });
+
+    finaleObserver.observe(document.getElementById('finale'));
+
+    function createStarBurst() {
+        const container = document.getElementById('burst-container');
+        const colors = ['#f0c27f', '#e8a0bf', '#c4b5fd', '#fff'];
+        for (let i = 0; i < 60; i++) {
+            const p = document.createElement('div');
+            p.className = 'burst-particle';
+            p.style.background = colors[Math.floor(Math.random() * colors.length)];
+            p.style.width = p.style.height = (Math.random() * 4 + 2) + 'px';
+            p.style.borderRadius = '50%';
+
+            const angle = (Math.PI * 2 * i) / 60;
+            const distance = Math.random() * 300 + 100;
+            const duration = Math.random() * 2 + 1.5;
+
+            p.style.transition = `all ${duration}s cubic-bezier(0.16, 1, 0.3, 1)`;
+            p.style.opacity = '0.8';
+            container.appendChild(p);
+
+            requestAnimationFrame(() => {
+                p.style.transform = `translate(${Math.cos(angle) * distance}px, ${Math.sin(angle) * distance}px)`;
+                p.style.opacity = '0';
+            });
+
+            setTimeout(() => p.remove(), duration * 1000);
+        }
+    }
+    </script>
+</body>
+</html>
